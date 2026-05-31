@@ -1,0 +1,65 @@
+menu "WiFi Configuration"
+    choice WIFI_AUTH_MODE
+        prompt "Minimum WiFi authentication mode"
+        default WIFI_AUTH_WPA2_PSK
+        help
+            The weakest authentication mode that the device will attempt to
+            use when connecting to an access point.
+        config WIFI_AUTH_OPEN
+            bool "OPEN"
+        config WIFI_AUTH_WPA2_PSK
+            bool "WPA2 PSK"
+        config WIFI_AUTH_WPA_WPA2_PSK
+            bool "WPA/WPA2 PSK"
+        config WIFI_AUTH_WPA3_PSK
+            bool "WPA3 PSK"
+        config WIFI_AUTH_WPA2_WPA3_PSK
+            bool "WPA2/WPA3 PSK"
+        config WIFI_AUTH_WAPI_PSK
+            bool "WAPI PSK"
+    endchoice
+
+    config WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            Network name (SSID) to connect to.
+
+    config WIFI_PASSWORD
+        string "WiFi password"
+        default "mypassword"
+
+    choice WIFI_WPA3_SAE_MODE
+        prompt "SAE mode for WPA3"
+        default WIFI_STA_WPA3_SAE_PWE_BOTH
+        help
+            Select SAE mode as Hunt and Peck, H2E, or both.
+        config WIFI_WPA3_SAE_PWE_HUNT_AND_PECK
+            bool "Hunt and Peck"
+        config WIFI_WPA3_SAE_PWE_H2E
+            bool "Hash to Element (H2E)"
+        config WIFI_WPA3_SAE_PWE_BOTH
+            bool "Both"
+    endchoice
+
+    config WIFI_WPA3_PASSWORD_ID
+        string "Password identifier for SAE H2E"
+        depends on WIFI_WPA3_SAE_PWE_H2E || WIFI_WPA3_SAE_PWE_BOTH
+        default ""
+        help
+            Password identifier for SAE H2E mode.
+
+    config WIFI_AUTO_RECONNECT
+        bool "Automatically attempt reconnect on disconnect"
+        default n
+        help
+            If a disconnect event occurs, automatically attempt to reconnect to
+            the network.
+endmenu
+menu "HTTP API settings"
+    config HTTP_P1_DATA_URL
+        string "P1 data endpoint url"
+        default "http://example.com/api/smartMeterData"
+        help
+            Url of the endpoint to post the smart meter data to.
+endmenu
