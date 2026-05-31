@@ -580,4 +580,5 @@ static value_type_def_t const *parse_obis(parser_context_t *context){
             return &s_value_type_def[i];
         }
     }
+    return NULL;
 }
